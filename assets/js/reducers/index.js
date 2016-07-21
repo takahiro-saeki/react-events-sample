@@ -1,10 +1,12 @@
-import { combineReducers } from 'redux'
-import todos from './todos'
-import visibilityFilter from './visibilityFilter'
+const judge = (state, action) => {
+  switch (action.type) {
+    case 'CHANGE_FLAG':
+      return {
+        flag: action.flag
+      }
+    default:
+      return state
+  }
+}
 
-const todoApp = combineReducers({
-  todos,
-  visibilityFilter
-})
-
-export default todoApp
+export default judge

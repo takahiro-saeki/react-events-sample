@@ -1,14 +1,18 @@
-import React from 'react'
-import Footer from './Footer'
-import AddTodo from '../containers/AddTodo'
-import VisibleTodoList from '../containers/VisibleTodoList'
+import React, {Component} from 'react'
+import {changeFlag} from '../actions/index'
+import ArrowTest from './ArrowTest'
 
-const App = () => (
-  <div>
-    <AddTodo />
-    <VisibleTodoList />
-    <Footer />
-  </div>
-)
-
-export default App
+export default class App extends Component {
+  sam() {
+    console.log(changeFlag('test'))
+    console.log(getState())
+  }
+  render() {
+    return (
+      <main>
+        <div onClick={this.sam}>テスト</div>
+        <ArrowTest arrow="テスト！"/>
+      </main>
+    )
+  }
+}
