@@ -1,1 +1,6 @@
 @import 'common/ress';
+button {
+  border: 1px solid #CCC;
+  padding: 1rem;
+  margin: .5rem;
+}

@@ -15,6 +15,7 @@ render(
 document.getElementById('app')
 )
 */
+/*
 import React, {Component} from 'react';
 import { render } from 'react-dom';
 import { createStore } from 'redux';
@@ -36,59 +37,75 @@ class Test extends Component {
       <main>
         <p onClick={this.addState}>state追加</p>
         <p onClick={this.check}>チェック</p>
-        <Counters onIncrement={
-            () =>
-            store.dispatch({
-              type: 'INCREMENT'
-            })
-          }
-          onDecrement={() =>
-              store.dispatch({
-                type: 'DECREMENT'
-              })}
-          actionTest={() =>
-            store.dispatch(testAction('引数'))
-          }/>
+        <Counters
+          onIncrement={() => store.dispatch({type: 'INCREMENT'})}
+          onDecrement={() => store.dispatch({type: 'DECREMENT'})}
+          onAction={() => store.dispatch(ActionBtn('test'))}
+          />
         <div>{() => this.props.action}</div>
-            </main>
-          )
-        }
-      }
+        <div>{this.props.data}</div>
+      </main>
+    )
+  }
+}
 
-      class Counters extends Component {
-        render() {
-          return (
-            <section>
-              <div onClick={this.props.onIncrement}>＋</div>
-              <div onClick={this.props.onDecrement}>ー</div>
-              <div onClick={this.props.actionTest}>アクションテスト</div>
-            </section>
-          )
-        }
-      }
+class Counters extends Component {
+  render() {
+    return (
+      <section>
+        <div onClick={this.props.onIncrement}>＋</div>
+        <div onClick={this.props.onDecrement}>ー</div>
+        <div onClick={this.props.onAction}>アクション</div>
+      </section>
+    )
+  }
+}
 
-      const counter = (state = {}, action) => {
-        switch(action.type) {
-          case 'INCREMENT':
-          return state.count = state.count + 1
-          case 'DECREMENT':
-          return state.count = state.count - 1
-          case 'ACTION':
-          return state.action = action.action
-        }
-      }
+const counter = (state = 0, action) => {
+  switch(action.type) {
+    case 'INCREMENT':
+    return state + 1
+    case 'DECREMENT':
+    return state - 1
+    case 'ACTION_BTN':
+    return action.data
+  }
+}
 
-      const testAction = action => {
-        return {
-          type: 'ACTION',
-          action: action
-        }
-      }
+function ActionBtn(data) {
+  return {type: 'ACTION_BTN', data}
+}
 
-      const store = createStore(counter)
-      render(
-        <Provider store={store}>
-          <Test />
-        </Provider>,
-        document.getElementById('app')
-      )
+const store = createStore(counter)
+render(
+  <Provider store={store}>
+    <Test />
+  </Provider>,
+  document.getElementById('app')
+)
+*/
+import React from 'react'
+import ReactDOM from 'react-dom'
+import { createStore } from 'redux'
+import Counter from './components/Counter'
+import counter from './reducers'
+import STYLE from '../css/style.css';
+
+const store = createStore(counter)
+const rootEl = document.getElementById('app')
+
+function render() {
+  ReactDOM.render(
+    <Counter
+      value={store.getState().test}
+      onIncrement={() => store.dispatch({ type: 'INCREMENT' })}
+      onDecrement={() => store.dispatch({ type: 'DECREMENT' })}
+      onBurst={() => store.dispatch({ type: 'BURST' })}
+      onData={() => store.dispatch({ type: 'USER_DATA' })}
+    />,
+    rootEl
+  )
+}
+
+render()
+store.subscribe(render)
